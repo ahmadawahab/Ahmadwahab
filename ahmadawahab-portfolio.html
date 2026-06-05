@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ahmad A. Wahab — Media Director & Executive Producer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:     #0D0D0D;
+    --paper:   #F5F2ED;
+    --gold:    #B8924A;
+    --gold-lt: #D4A96A;
+    --mid:     #3A3530;
+    --muted:   #7A736B;
+    --rule:    #D6CFC5;
+    --card-bg: #FFFFFF;
+    --accent:  #1A3A5C;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 80px 40px 70px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .header-rule {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin-bottom: 32px;
+    animation: expand 1.2s ease forwards;
+  }
+
+  @keyframes expand {
+    from { width: 0; }
+    to   { width: 60px; }
+  }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s ease forwards;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 7vw, 88px);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin-bottom: 6px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.35s ease forwards;
+  }
+
+  h1 span { color: var(--gold); }
+
+  .header-title {
+    font-size: clamp(14px, 2vw, 18px);
+    font-weight: 300;
+    color: #A09890;
+    margin-top: 18px;
+    margin-bottom: 36px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s ease forwards;
+    max-width: 600px;
+    line-height: 1.5;
+  }
+
+  .header-contacts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.65s ease forwards;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #C0B8B0;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .contact-item:hover { color: var(--gold-lt); }
+  .contact-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+
+  /* header bg pattern */
+  header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 500px; height: 500px;
+    border: 1px solid rgba(184,146,74,0.12);
+    border-radius: 50%;
+    z-index: 1;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    top: 20px; right: 60px;
+    width: 300px; height: 300px;
+    border: 1px solid rgba(184,146,74,0.07);
+    border-radius: 50%;
+    z-index: 1;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,0.07);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+  }
+
+  nav a {
+    display: block;
+    padding: 16px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #908880;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  nav a:hover { color: var(--gold-lt); border-bottom-color: var(--gold); }
+
+  /* ── SECTIONS ── */
+  section { max-width: 1100px; margin: 0 auto; padding: 80px 40px; }
+  section + section { border-top: 1px solid var(--rule); }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.15;
+    margin-bottom: 40px;
+  }
+
+  /* ── STATS STRIP ── */
+  .stats {
+    background: var(--ink);
+    padding: 0;
+  }
+
+  .stats-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 50px 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0;
+  }
+
+  .stat-item {
+    padding: 20px 30px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s, transform 0.6s;
+  }
+
+  .stat-item:last-child { border-right: none; }
+  .stat-item.visible { opacity: 1; transform: none; }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: #7A736B;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+  }
+
+  /* ── EXPERTISE GRID ── */
+  .expertise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 8px;
+  }
+
+  .exp-card {
+    background: var(--card-bg);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px 30px;
+    position: relative;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .exp-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--gold);
+    border-radius: 4px 0 0 4px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .exp-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .exp-card:hover::before { opacity: 1; }
+
+  .exp-icon {
+    font-size: 28px;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .exp-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  .exp-desc { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+  .exp-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+
+  .tag {
+    font-size: 11px;
+    padding: 3px 10px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 32px; }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 6px; top: 8px; bottom: 8px;
+    width: 1px;
+    background: var(--rule);
+  }
+
+  .tl-item {
+    position: relative;
+    margin-bottom: 48px;
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+
+  .tl-item.visible { opacity: 1; transform: none; }
+
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -28px; top: 8px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--paper);
+    outline: 1px solid var(--gold);
+  }
+
+  .tl-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .tl-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 2px;
+    line-height: 1.25;
+  }
+
+  .tl-org {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 12px;
+    font-style: italic;
+  }
+
+  .tl-body { font-size: 14px; color: var(--mid); line-height: 1.7; }
+
+  .tl-achievements {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .achievement {
+    font-size: 12px;
+    padding: 4px 12px;
+    background: #FFF8EE;
+    border: 1px solid #E8D5B0;
+    border-radius: 2px;
+    color: #7A5520;
+    font-weight: 500;
+  }
+
+  /* ── PLATFORMS GRID ── */
+  .platforms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 8px;
+  }
+
+  .platform-card {
+    background: var(--card-bg);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 24px 26px;
+    transition: border-color 0.2s;
+  }
+
+  .platform-card:hover { border-color: var(--gold); }
+
+  .platform-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .platform-type {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+  }
+
+  .platform-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .pstat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+  }
+
+  .pstat-label { color: var(--muted); }
+  .pstat-val { font-weight: 500; color: var(--ink); font-family: 'DM Mono', monospace; font-size: 12px; }
+
+  /* ── SKILLS ── */
+  .skills-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+
+  @media (max-width: 700px) { .skills-layout { grid-template-columns: 1fr; } }
+
+  .skill-group-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .skill-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(214,207,197,0.4);
+    font-size: 14px;
+    color: var(--mid);
+  }
+
+  .skill-bar-wrap {
+    width: 80px;
+    height: 3px;
+    background: var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .skill-bar {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 2px;
+    width: 0;
+    transition: width 1s ease;
+  }
+
+  /* ── TOOLS ── */
+  .tools-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .tool-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    padding: 6px 14px;
+    background: var(--card-bg);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    color: var(--mid);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .tool-pill:hover { border-color: var(--gold); color: var(--ink); }
+
+  /* ── CONTACT ── */
+  .contact-section {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 80px 0;
+  }
+
+  .contact-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  @media (max-width: 700px) { .contact-inner { grid-template-columns: 1fr; gap: 40px; } }
+
+  .contact-section h2 { color: var(--paper); }
+
+  .contact-info-list { display: flex; flex-direction: column; gap: 16px; margin-top: 8px; }
+
+  .ci-item { display: flex; flex-direction: column; gap: 3px; }
+  .ci-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
+  .ci-val { font-size: 15px; color: #C0B8B0; }
+  .ci-val a { color: var(--gold-lt); text-decoration: none; }
+  .ci-val a:hover { color: var(--gold); }
+
+  .availability {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #6EC197;
+    margin-top: 28px;
+    padding: 10px 18px;
+    border: 1px solid rgba(110,193,151,0.3);
+    border-radius: 2px;
+  }
+
+  .avail-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #6EC197;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #080808;
+    color: #504840;
+    text-align: center;
+    padding: 24px 40px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+
+  footer span { color: var(--gold); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .header-inner, section { padding-left: 24px; padding-right: 24px; }
+    .stats-inner { padding: 40px 24px; grid-template-columns: 1fr 1fr; }
+    .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    nav a { padding: 14px 12px; font-size: 10px; }
+    .nav-inner { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="header-rule"></div>
+    <p class="eyebrow">Media Director &amp; Executive Producer — Cairo · Doha · Istanbul</p>
+    <h1>Ahmad A.<br><span>Wahab</span></h1>
+    <p class="header-title">18 years shaping Arabic media — from satellite broadcast to digital platforms, from MBC studios to founding channels that reach millions.</p>
+    <div class="header-contacts">
+      <a href="mailto:ahmadhussein.dir@gmail.com" class="contact-item">
+        <span class="contact-dot"></span>ahmadhussein.dir@gmail.com
+      </a>
+      <a href="https://www.linkedin.com/in/ahmadawahab" class="contact-item" target="_blank">
+        <span class="contact-dot"></span>linkedin.com/in/ahmadawahab
+      </a>
+      <span class="contact-item">
+        <span class="contact-dot"></span>+974 5116 0631
+      </span>
+      <span class="contact-item">
+        <span class="contact-dot"></span>Doha, Qatar
+      </span>
+    </div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#expertise">Expertise</a>
+    <a href="#experience">Experience</a>
+    <a href="#platforms">Platforms</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- STATS STRIP -->
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-num">18+</div>
+      <div class="stat-label">Years in Media &amp; Production</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100M+</div>
+      <div class="stat-label">Total Views Generated</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3M+</div>
+      <div class="stat-label">Followers Built Across Platforms</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">6</div>
+      <div class="stat-label">Platforms Founded &amp; Launched</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">4</div>
+      <div class="stat-label">Countries Operated In</div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERTISE -->
+<section id="expertise">
+  <p class="section-label">What I Do</p>
+  <h2>Areas of Expertise</h2>
+  <div class="expertise-grid">
+
+    <div class="exp-card">
+      <span class="exp-icon">🎬</span>
+      <div class="exp-title">Executive Production</div>
+      <div class="exp-desc">End-to-end management of television and digital productions — from pre-production and scripting through post and transmission. Proven across satellite TV, documentary, and branded content.</div>
+      <div class="exp-tags">
+        <span class="tag">Line Production</span>
+        <span class="tag">Post Supervision</span>
+        <span class="tag">Broadcast OB</span>
+        <span class="tag">QC</span>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <span class="exp-icon">📱</span>
+      <div class="exp-title">Digital Platform Strategy</div>
+      <div class="exp-desc">Founded and scaled six specialized media platforms from zero. Deep expertise in YouTube, Facebook, and TikTok algorithm optimization, audience development, and data-driven publishing.</div>
+      <div class="exp-tags">
+        <span class="tag">OTT Strategy</span>
+        <span class="tag">SEO / VSEO</span>
+        <span class="tag">Audience Growth</span>
+        <span class="tag">Analytics</span>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <span class="exp-icon">✍️</span>
+      <div class="exp-title">Editorial Leadership</div>
+      <div class="exp-desc">Led newsrooms, directed scriptwriting departments, and managed editorial teams of 20+ across news, religious, political, and documentary formats for satellite and digital channels.</div>
+      <div class="exp-tags">
+        <span class="tag">Newsroom Mgmt</span>
+        <span class="tag">Scriptwriting</span>
+        <span class="tag">Fact-Checking</span>
+        <span class="tag">Brand Voice</span>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <span class="exp-icon">⚙️</span>
+      <div class="exp-title">Media Operations</div>
+      <div class="exp-desc">Built operational infrastructure for broadcast channels, designed production workflows, implemented AI-driven automation, and managed multi-million dollar budgets with P&L accountability.</div>
+      <div class="exp-tags">
+        <span class="tag">PMBOK</span>
+        <span class="tag">Workflow Design</span>
+        <span class="tag">Budget / P&L</span>
+        <span class="tag">AI Automation</span>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <span class="exp-icon">🎯</span>
+      <div class="exp-title">Content Strategy</div>
+      <div class="exp-desc">Designed content strategies for religious, news, political, and commercial platforms — aligning editorial output with audience data, platform algorithms, and organizational growth goals.</div>
+      <div class="exp-tags">
+        <span class="tag">Content Lifecycle</span>
+        <span class="tag">A/B Testing</span>
+        <span class="tag">Engagement</span>
+        <span class="tag">Distribution</span>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <span class="exp-icon">🎥</span>
+      <div class="exp-title">Direction &amp; Field Production</div>
+      <div class="exp-desc">Directed studio and field productions for MBC Group and ART, managing crews, coordinating logistics, and executing complex multi-location shoots to broadcast standards.</div>
+      <div class="exp-tags">
+        <span class="tag">Studio Direction</span>
+        <span class="tag">Field Mgmt</span>
+        <span class="tag">Documentaries</span>
+        <span class="tag">Talk Shows</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE TIMELINE -->
+<section id="experience">
+  <p class="section-label">Career</p>
+  <h2>Professional Experience</h2>
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-date">2023 — Present</div>
+      <div class="tl-title">Freelance Executive Producer &amp; Media Consultant</div>
+      <div class="tl-org">Independent — Turkey &amp; Gulf Region</div>
+      <div class="tl-body">Managing integrated media campaigns and branded content productions for commercial clients across Turkey and the Gulf. Clients include Al-Saqr, Al-Ain, Baldona, Kanz, and Majmaa Al-Andalus. Delivering end-to-end production from concept through multi-platform distribution, integrating AI tools to streamline post-production workflows.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2021 — 2022</div>
+      <div class="tl-title">Founder &amp; Director — Noon Center for Media Studies</div>
+      <div class="tl-org">Al-Mou'asher Media Intelligence Publication</div>
+      <div class="tl-body">Founded an independent media research and analytics center focused on digital content strategy and platform performance analysis for Arabic-language media organizations. Directed Al-Mou'asher, a media intelligence publication bridging academic research with applied digital practice.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2019 — 2022</div>
+      <div class="tl-title">Platform Founder &amp; Digital Strategy Director</div>
+      <div class="tl-org">Honafaa · Hiraa · Ana Al-Shaab · Sada Masr</div>
+      <div class="tl-body">Founded and directed a portfolio of specialized Arabic digital media platforms. Engineered launch strategies achieving 1M+ followers within months, 40M+ views per platform, and sustained audience engagement through data-driven editorial and publishing optimization.</div>
+      <div class="tl-achievements">
+        <span class="achievement">1M followers in 9 months — Honafaa</span>
+        <span class="achievement">40M views — Daawah Channel</span>
+        <span class="achievement">200K followers in 6 months — Hiraa</span>
+        <span class="achievement">+40% follower growth — Sada Masr</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2020 — 2021</div>
+      <div class="tl-title">Project Manager — Team &amp; Screen Development</div>
+      <div class="tl-org">Mekameleen TV Channel</div>
+      <div class="tl-body">Led a comprehensive restructuring project covering visual identity, on-screen branding, and production workflow transformation. Converted legacy broadcast models into agile, digital-first operations using Jira and Asana.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2016 — 2020</div>
+      <div class="tl-title">Head of Operations &amp; Executive Director</div>
+      <div class="tl-org">Daawah TV Channel</div>
+      <div class="tl-body">Full executive responsibility for channel operations — broadcast infrastructure, production cycles, editorial direction, and team development. Drove digital growth to 1M+ new followers and 40M+ views. Managed all programming from pre-production to final transmission.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2012 — 2015</div>
+      <div class="tl-title">Video Unit Founder &amp; Manager</div>
+      <div class="tl-org">Al-Islah Society — Bahrain</div>
+      <div class="tl-body">Built the organization's first video production unit from zero — infrastructure, equipment, team recruitment, and training. Managed all productions and delivered media training programs for staff and volunteers.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2008 — 2016</div>
+      <div class="tl-title">Senior Editorial Manager &amp; Head of Scriptwriting</div>
+      <div class="tl-org">Al-Nas TV Channel — Egypt</div>
+      <div class="tl-body">Supervised content production and QC for one of Egypt's leading satellite channels. Directed scriptwriting across all major programming, led the transition to digital-first production models, and managed post-production workflows including motion graphics and visual effects.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2005 — 2008</div>
+      <div class="tl-title">Director &amp; Assistant Director</div>
+      <div class="tl-org">MBC Group &amp; ART (Arab Radio and Television)</div>
+      <div class="tl-body">Worked within world-class international production environments. Directed and assistant-directed major programs to MBC and ART broadcast standards. Produced and scripted content across talk shows, investigative reports, and specialized documentaries.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2004 — 2009</div>
+      <div class="tl-title">Field Production Supervisor &amp; Director</div>
+      <div class="tl-org">Al-Najah Channel &amp; Al-Resalah Channel</div>
+      <div class="tl-body">Managed field crews and multi-location shoots for news and documentary productions. Built foundational expertise in broadcast journalism, field direction, and production logistics.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PLATFORMS -->
+<section id="platforms">
+  <p class="section-label">Founded & Directed</p>
+  <h2>Platform Portfolio</h2>
+  <div class="platforms-grid">
+
+    <div class="platform-card">
+      <div class="platform-name">Honafaa</div>
+      <div class="platform-type">Religious · Digital Platform</div>
+      <div class="platform-stats">
+        <div class="pstat"><span class="pstat-label">Followers</span><span class="pstat-val">1,000,000+</span></div>
+        <div class="pstat"><span class="pstat-label">Views</span><span class="pstat-val">10,000,000+</span></div>
+        <div class="pstat"><span class="pstat-label">Timeline</span><span class="pstat-val">9 months</span></div>
+      </div>
+    </div>
+
+    <div class="platform-card">
+      <div class="platform-name">Daawah Channel</div>
+      <div class="platform-type">Religious · Satellite &amp; Digital</div>
+      <div class="platform-stats">
+        <div class="pstat"><span class="pstat-label">New followers</span><span class="pstat-val">1,000,000+</span></div>
+        <div class="pstat"><span class="pstat-label">Views</span><span class="pstat-val">40,000,000+</span></div>
+        <div class="pstat"><span class="pstat-label">Timeline</span><span class="pstat-val">10 months</span></div>
+      </div>
+    </div>
+
+    <div class="platform-card">
+      <div class="platform-name">Hiraa</div>
+      <div class="platform-type">Religious · Digital Platform</div>
+      <div class="platform-stats">
+        <div class="pstat"><span class="pstat-label">Followers</span><span class="pstat-val">200,000+</span></div>
+        <div class="pstat"><span class="pstat-label">Views</span><span class="pstat-val">6,000,000+</span></div>
+        <div class="pstat"><span class="pstat-label">Timeline</span><span class="pstat-val">6 months</span></div>
+      </div>
+    </div>
+
+    <div class="platform-card">
+      <div class="platform-name">Sada Masr</div>
+      <div class="platform-type">News · Digital Platform</div>
+      <div class="platform-stats">
+        <div class="pstat"><span class="pstat-label">Follower growth</span><span class="pstat-val">+40%</span></div>
+        <div class="pstat"><span class="pstat-label">Views</span><span class="pstat-val">10,000,000+</span></div>
+        <div class="pstat"><span class="pstat-label">Method</span><span class="pstat-val">Editorial restructure</span></div>
+      </div>
+    </div>
+
+    <div class="platform-card">
+      <div class="platform-name">Ana Al-Shaab</div>
+      <div class="platform-type">Political · Digital Platform</div>
+      <div class="platform-stats">
+        <div class="pstat"><span class="pstat-label">Followers</span><span class="pstat-val">40,000+</span></div>
+        <div class="pstat"><span class="pstat-label">Views</span><span class="pstat-val">4,000,000+</span></div>
+        <div class="pstat"><span class="pstat-label">Timeline</span><span class="pstat-val">2 months</span></div>
+      </div>
+    </div>
+
+    <div class="platform-card">
+      <div class="platform-name">Shafaq</div>
+      <div class="platform-type">NGO / Charity · Digital</div>
+      <div class="platform-stats">
+        <div class="pstat"><span class="pstat-label">Engagement growth</span><span class="pstat-val">+30%</span></div>
+        <div class="pstat"><span class="pstat-label">Focus</span><span class="pstat-val">Audience retention</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label">Capabilities</p>
+  <h2>Skills &amp; Tools</h2>
+
+  <div class="skills-layout">
+    <div>
+      <div class="skill-group-title">Production &amp; Direction</div>
+      <div class="skill-item"><span>Executive Production</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="95"></div></div></div>
+      <div class="skill-item"><span>Field Direction</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="90"></div></div></div>
+      <div class="skill-item"><span>Post-Production Supervision</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="88"></div></div></div>
+      <div class="skill-item"><span>Scriptwriting</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="92"></div></div></div>
+      <div class="skill-item"><span>Broadcast Operations</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="90"></div></div></div>
+
+      <div class="skill-group-title" style="margin-top:28px;">Strategy &amp; Editorial</div>
+      <div class="skill-item"><span>Content Strategy</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="95"></div></div></div>
+      <div class="skill-item"><span>Audience Development</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="93"></div></div></div>
+      <div class="skill-item"><span>Editorial Leadership</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="95"></div></div></div>
+      <div class="skill-item"><span>SEO / VSEO</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="85"></div></div></div>
+    </div>
+
+    <div>
+      <div class="skill-group-title">Operations &amp; Management</div>
+      <div class="skill-item"><span>Project Management (PMBOK)</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="88"></div></div></div>
+      <div class="skill-item"><span>Team Leadership</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="95"></div></div></div>
+      <div class="skill-item"><span>Budget &amp; P&L Management</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="82"></div></div></div>
+      <div class="skill-item"><span>Workflow Engineering</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="90"></div></div></div>
+      <div class="skill-item"><span>Change Management</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="85"></div></div></div>
+
+      <div class="skill-group-title" style="margin-top:28px;">Digital &amp; Analytics</div>
+      <div class="skill-item"><span>Platform Growth Strategy</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="95"></div></div></div>
+      <div class="skill-item"><span>Performance Analytics (GA4)</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="85"></div></div></div>
+      <div class="skill-item"><span>AI Workflow Integration</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="80"></div></div></div>
+      <div class="skill-item"><span>Social Media Strategy</span><div class="skill-bar-wrap"><div class="skill-bar" data-w="92"></div></div></div>
+    </div>
+  </div>
+
+  <div style="margin-top: 48px;">
+    <div class="skill-group-title">Tools &amp; Platforms</div>
+    <div class="tools-wrap">
+      <span class="tool-pill">Adobe Premiere Pro</span>
+      <span class="tool-pill">After Effects</span>
+      <span class="tool-pill">DaVinci Resolve</span>
+      <span class="tool-pill">Final Cut Pro</span>
+      <span class="tool-pill">Adobe Photoshop</span>
+      <span class="tool-pill">Meta Business Suite</span>
+      <span class="tool-pill">YouTube Studio</span>
+      <span class="tool-pill">Google Analytics GA4</span>
+      <span class="tool-pill">Frame.io</span>
+      <span class="tool-pill">Jira</span>
+      <span class="tool-pill">Monday.com</span>
+      <span class="tool-pill">Asana</span>
+      <span class="tool-pill">Zapier / Make</span>
+      <span class="tool-pill">Runway ML</span>
+      <span class="tool-pill">ElevenLabs</span>
+      <span class="tool-pill">Descript</span>
+      <span class="tool-pill">ChatGPT</span>
+      <span class="tool-pill">Claude AI</span>
+      <span class="tool-pill">Microsoft 365</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="contact-section" id="contact">
+  <div class="contact-inner">
+    <div>
+      <p class="section-label" style="color:var(--gold);">Get in Touch</p>
+      <h2>Available for New Projects &amp; Opportunities</h2>
+      <div class="availability">
+        <div class="avail-dot"></div>
+        Open to full-time roles &amp; consulting engagements
+      </div>
+    </div>
+    <div>
+      <div class="contact-info-list">
+        <div class="ci-item">
+          <span class="ci-label">Email</span>
+          <span class="ci-val"><a href="mailto:ahmadhussein.dir@gmail.com">ahmadhussein.dir@gmail.com</a></span>
+        </div>
+        <div class="ci-item">
+          <span class="ci-label">Phone — Qatar</span>
+          <span class="ci-val">+974 5116 0631</span>
+        </div>
+        <div class="ci-item">
+          <span class="ci-label">Phone — Turkey</span>
+          <span class="ci-val">+90 553 702 8177</span>
+        </div>
+        <div class="ci-item">
+          <span class="ci-label">LinkedIn</span>
+          <span class="ci-val"><a href="https://www.linkedin.com/in/ahmadawahab" target="_blank">linkedin.com/in/ahmadawahab</a></span>
+        </div>
+        <div class="ci-item">
+          <span class="ci-label">Based in</span>
+          <span class="ci-val">Doha, Qatar &nbsp;·&nbsp; Istanbul, Turkey</span>
+        </div>
+        <div class="ci-item">
+          <span class="ci-label">Languages</span>
+          <span class="ci-val">Arabic (Native) · English · Turkish</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span>Ahmad A. Wahab</span> — Media Director &amp; Executive Producer &nbsp;·&nbsp; Doha · Istanbul &nbsp;·&nbsp; 2026
+</footer>
+
+<script>
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => {
+          e.target.classList.add('visible');
+          // animate skill bars
+          e.target.querySelectorAll('.skill-bar').forEach(bar => {
+            bar.style.width = bar.dataset.w + '%';
+          });
+        }, i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.stat-item, .tl-item').forEach(el => observer.observe(el));
+
+  // Animate skill bars when section scrolls into view
+  const skillsSection = document.getElementById('skills');
+  const skillObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.skill-bar').forEach(bar => {
+          setTimeout(() => { bar.style.width = bar.dataset.w + '%'; }, 200);
+        });
+      }
+    });
+  }, { threshold: 0.2 });
+
+  if (skillsSection) skillObserver.observe(skillsSection);
+</script>
+</body>
+</html>
