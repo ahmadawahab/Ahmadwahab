@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ar"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:T;src:url(__FONT_AR800__);font-weight:800;unicode-range:U+0600-06FF,U+200C-200F,U+2010-2015,U+25CC,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:T;src:url(__FONT_AR700__);font-weight:700;unicode-range:U+0600-06FF,U+200C-200F,U+2010-2015,U+25CC,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:T;src:url(__FONT_LAT700__);font-weight:700;unicode-range:U+0000-00FF,U+2013-2014,U+2018-201D,U+2026}
+@font-face{font-family:T;src:url(__FONT_LAT700__);font-weight:800;unicode-range:U+0000-00FF,U+2013-2014,U+2018-201D,U+2026}
+:root{--ink:#0F1630;--green:#00C27A;--gold:#FFC93C;--cream:#FFF7E8;--lemon:#C8F53C}
+html,body{margin:0;background:transparent;width:1080px;height:1920px;overflow:hidden;font-family:T,sans-serif}
+#stage{position:relative;width:1080px;height:1920px}
+#bg{position:absolute;left:0;top:0}
+#win{position:absolute;left:40px;top:200px;width:870px;height:990px;border-radius:36px;overflow:hidden}
+#scene{position:absolute;left:0;top:0;display:none}
+#veil{position:absolute;inset:0;background:var(--ink);opacity:0}
+#punch{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0}
+#punch span{font-weight:800;color:var(--gold);line-height:1;text-shadow:0 10px 0 rgba(15,22,48,.55)}
+#ring{position:absolute;left:36px;top:196px;width:870px;height:990px;border:4px solid rgba(255,247,232,.18);border-radius:40px}
+#title{position:absolute;left:930px;top:200px;width:104px;height:990px;border-radius:36px;background:var(--green);overflow:hidden}
+#title span{position:absolute;left:50%;top:50%;white-space:nowrap;font-weight:800;font-size:80px;color:var(--ink);
+ transform:translate(-50%,-50%) rotate(-90deg);direction:rtl;letter-spacing:0}
+#title i{position:absolute;left:50%;bottom:30px;width:44px;height:44px;margin-left:-22px;opacity:.9}
+#logo{position:absolute;left:46px;top:52px;width:124px;height:124px}
+#caps{position:absolute;left:40px;top:1226px;width:870px;height:340px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+#ar{font-weight:800;color:var(--cream);direction:rtl;line-height:1.38;width:850px;text-wrap:balance}
+#ar b{color:var(--lemon);font-weight:800}
+#en{font-weight:700;color:var(--gold);direction:ltr;line-height:1.3;width:850px;margin-top:16px;text-wrap:balance}
+#prog{position:absolute;left:40px;top:1584px;width:870px;height:6px;border-radius:3px;background:rgba(255,247,232,.14)}
+#prog i{display:block;height:100%;width:0;border-radius:3px;background:var(--lemon)}
+</style></head><body>
+<div id="stage">
+<svg id="bg" width="1080" height="1920" viewBox="0 0 1080 1920">
+ <defs>
+  <pattern id="stars" width="150" height="150" patternUnits="userSpaceOnUse">
+   <g fill="none" stroke="#FFF7E8" stroke-opacity=".05" stroke-width="2"><rect x="45" y="45" width="60" height="60" rx="8"/><rect x="45" y="45" width="60" height="60" rx="8" transform="rotate(45 75 75)"/></g>
+  </pattern>
+  <linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0F1630"/><stop offset="1" stop-color="#0A1024"/></linearGradient>
+  <mask id="m"><rect width="1080" height="1920" fill="#fff"/><rect x="40" y="200" width="870" height="990" rx="36" fill="#000"/></mask>
+ </defs>
+ <g mask="url(#m)"><rect width="1080" height="1920" fill="url(#g)"/><rect width="1080" height="1920" fill="url(#stars)"/></g>
+</svg>
+<div id="win"><svg id="scene" width="870" height="990" viewBox="0 0 870 990"></svg><div id="veil"></div><div id="punch"><span></span></div></div>
+<div id="ring"></div>
+<div id="title"><span>غزة .. طريق <b style="font-weight:800">الثبات</b></span></div>
+<div id="logo">__LOGO__</div>
+<div id="caps"><div id="ar"></div><div id="en"></div></div>
+<div id="prog"><i></i></div>
+</div>
+<script>
+const CH = __CHUNKS__;
+const SCENES = __SCENES__;
+const PUNCH = __PUNCH__;
+const DUR = __DUR__;
+const $ = id => document.getElementById(id);
+const clamp = (x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const ease = x => { x=clamp(x); return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2; };
+const outc = x => 1-Math.pow(1-clamp(x),3);
+const rnd = n => { const s=Math.sin(n*127.1+311.7)*43758.5453; return s-Math.floor(s); };
+const CREAM='#FFF7E8', GREEN='#00C27A', GOLD='#FFC93C', LEMON='#C8F53C', INK='#0F1630';
+const PIP = {cx:165, cy:825, r:135};
+
+/* ---------- faceless doll ---------- */
+function doll(x,y,sc,ph,wob,fill=CREAM,extra=''){
+  const s=Math.sin(ph), c=Math.cos(ph);
+  return `<g transform="translate(${x} ${y}) scale(${sc}) rotate(${s*wob})">
+   <line x1="-12" y1="40" x2="${-22+s*14}" y2="128" stroke="${fill}" stroke-width="24" stroke-linecap="round"/>
+   <line x1="12" y1="40" x2="${22-s*14}" y2="128" stroke="${fill}" stroke-width="24" stroke-linecap="round"/>
+   <line x1="-34" y1="-62" x2="${-62-c*10}" y2="${10+s*14}" stroke="${fill}" stroke-width="18" stroke-linecap="round"/>
+   <line x1="34" y1="-62" x2="${62+c*10}" y2="${10-s*14}" stroke="${fill}" stroke-width="18" stroke-linecap="round"/>
+   <rect x="-38" y="-80" width="76" height="130" rx="38" fill="${fill}"/>
+   <circle cx="0" cy="-118" r="34" fill="${fill}"/>${extra}</g>`;
+}
+function bgGrad(id,a,b){return `<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs>`;}
+
+/* ---------- scenes: (s = seconds into scene, d = scene length) ---------- */
+function road(s,d,o){
+  const H=470, fast=o.speed;
+  let g=bgGrad('rg',o.top,o.hor)+`<rect width="870" height="${H}" fill="url(#rg)"/><rect y="${H}" width="870" height="520" fill="${o.ground}"/>`;
+  g+=`<polygon points="418,${H} 452,${H} 1000,990 -130,990" fill="${o.road}"/>`;
+  g+=`<line x1="418" y1="${H}" x2="-130" y2="990" stroke="${CREAM}" stroke-opacity=".28" stroke-width="3"/><line x1="452" y1="${H}" x2="1000" y2="990" stroke="${CREAM}" stroke-opacity=".28" stroke-width="3"/>`;
+  for(let k=0;k<9;k++){const p=((k+s*fast)%9)/9, q=p*p, y=H+(990-H)*q, w=3+34*q, h=6+60*q;
+    g+=`<rect x="${435-w/2}" y="${y}" width="${w}" height="${h}" rx="2" fill="${CREAM}" fill-opacity="${.25+.6*q}"/>`;}
+  const gs=ease(s/d); // roadside marker grows slowly: the destination
+  g+=`<g transform="translate(${478+gs*22} ${H-10-gs*8}) scale(${.5+gs*.5})"><rect x="-3" y="-60" width="6" height="64" fill="${CREAM}" fill-opacity=".8"/><rect x="-26" y="-96" width="52" height="42" rx="8" fill="${GREEN}"/><g transform="translate(0 -75)"><rect x="-13" y="-13" width="26" height="26" rx="3" fill="#fff"/><rect x="-13" y="-13" width="26" height="26" rx="3" fill="#fff" transform="rotate(45)"/></g></g>`;
+  const ph=s*fast*3.2;
+  g+=doll(435,742+Math.abs(Math.sin(ph))*-8,1.25,ph,2,CREAM);
+  return g;
+}
+function noisy(s,d){
+  let g=`<rect width="870" height="990" fill="${INK}"/>`;
+  const W=[['إرجاف',.0,300,320,-6],['تثبيط',.6,500,540,5],['إسفاف',1.2,590,780,-3]];
+  for(let i=0;i<14;i++){const y=rnd(Math.floor(s*30)*7+i)*990; g+=`<rect x="0" y="${y}" width="870" height="${2+rnd(i+Math.floor(s*30))*5}" fill="${CREAM}" fill-opacity="${.04+.07*rnd(i*3+Math.floor(s*30))}"/>`;}
+  W.forEach(([w,t0,x,y,rot],i)=>{
+    const k=outc((s-t0)/.25); if(k<=0) return;
+    const jx=(rnd(Math.floor(s*24)+i*5)-.5)*14, jy=(rnd(Math.floor(s*24)+i*9)-.5)*8;
+    const strike=ease((s-(d-.9)-i*.12)/.3);
+    g+=`<g transform="translate(${x+jx} ${y+jy}) rotate(${rot}) scale(${.7+.3*k})" opacity="${k*(1-.35*strike)}">
+      <text x="3" y="3" text-anchor="middle" font-size="150" font-weight="800" fill="${GREEN}" fill-opacity=".55">${w}</text>
+      <text text-anchor="middle" font-size="150" font-weight="800" fill="${CREAM}">${w}</text>
+      <rect x="-190" y="-48" width="${380*strike}" height="12" fill="${GOLD}" transform="translate(${190-190*strike*0} 0)"/></g>`;});
+  return g;
+}
+function siege(s,d){
+  let g=bgGrad('sg','#0F1630','#1a2a52')+`<rect width="870" height="990" fill="url(#sg)"/>`;
+  const k=ease(s/(d*.85));
+  for(let i=0;i<13;i++){const x=70+i*58, h=110+rnd(i+3)*240;
+    g+=`<rect x="${x}" y="${760-h}" width="48" height="${h+240}" fill="#1b2750"/>`;
+    for(let r=0;r<Math.floor(h/48);r++) for(let c=0;c<2;c++) if(rnd(i*13+r*3+c)>.45) g+=`<rect x="${x+8+c*20}" y="${776-h+r*48}" width="12" height="16" fill="${GOLD}" fill-opacity=".75"/>`;}
+  g+=`<rect y="760" width="870" height="230" fill="#0b1126"/>`;
+  const n=28, R=470-170*k;
+  for(let i=0;i<n;i++){const a=i/n*Math.PI*2; g+=`<rect x="-14" y="-4" width="28" height="8" rx="3" fill="${CREAM}" fill-opacity=".85" transform="translate(${435+Math.cos(a)*R*1.08} ${520+Math.sin(a)*R*.78}) rotate(${a*180/Math.PI+90})"/>`;}
+  g+=`<text x="435" y="150" text-anchor="middle" font-size="150" font-weight="800" fill="${CREAM}">غزة</text>`;
+  const q=ease((s-d*.55)/.5); g+=`<text x="435" y="410" text-anchor="middle" font-size="190" font-weight="800" fill="${LEMON}" fill-opacity="${q}" transform="scale(1)">؟</text>`;
+  return g;
+}
+function coord(s,d){
+  let g=`<rect width="870" height="990" fill="${INK}"/>`;
+  const k=ease(s/(d*.5)), m=ease((s-d*.5)/.45), y=470;
+  g+=`<line x1="40" y1="${y+110}" x2="830" y2="${y+110}" stroke="${CREAM}" stroke-opacity=".2" stroke-width="3" stroke-dasharray="14 12"/>`;
+  const ax=130+k*160, bx=740-k*160;
+  const sq=(x,col,label,sc)=>`<g transform="translate(${x} ${y}) scale(${sc})"><rect x="-90" y="-90" width="180" height="180" rx="22" fill="${col}"/><text y="150" text-anchor="middle" font-size="64" font-weight="800" fill="${CREAM}">${label}</text></g>`;
+  if(m<=0){g+=sq(ax,GREEN,'مشروع سياسي',1)+sq(bx,CREAM,'العدو',1);}
+  else{const x=435; g+=`<g transform="translate(${x} ${y}) scale(${1+.15*Math.sin(m*3.14)})"><rect x="-90" y="-90" width="180" height="180" rx="22" fill="${CREAM}"/><rect x="-90" y="-90" width="90" height="180" rx="22" fill="${GREEN}"/></g><text x="435" y="${y+170}" text-anchor="middle" font-size="86" font-weight="800" fill="${GOLD}" fill-opacity="${m}">تنسيق</text>`;}
+  return g;
+}
+function puppets(s,d,o){
+  let g=`<rect width="870" height="990" fill="${INK}"/>`;
+  const sw=Math.sin(s*2.2)*18, N=o.n;
+  g+=`<g transform="translate(435 80) rotate(${sw*.15})"><rect x="-${110+N*30}" y="-12" width="${220+N*60}" height="24" rx="12" fill="${GOLD}"/></g>`;
+  for(let i=0;i<N;i++){
+    const cx=(N>1?530:480)+(i-(N-1)/2)*200, ph=s*3+i*1.7, y=520+Math.sin(ph*.7)*22, sc=N>1?.95:1.25;
+    const top=80+sw*.2, bx=cx;
+    g+=`<g stroke="${CREAM}" stroke-opacity=".6" stroke-width="2.5">
+      <line x1="${cx}" y1="${top}" x2="${cx}" y2="${y-118*sc-34*sc}"/>
+      <line x1="${cx-40}" y1="${top}" x2="${cx-34*sc-62*sc}" y2="${y-62*sc+(10+Math.sin(ph)*14)*sc}"/>
+      <line x1="${cx+40}" y1="${top}" x2="${cx+34*sc+62*sc}" y2="${y-62*sc+(10-Math.sin(ph)*14)*sc}"/></g>`;
+    g+=doll(cx,y,sc,ph,6,CREAM);
+  }
+  for(let i=0;i<9;i++){const t=((s*.55+i*.37)%1), x=80+rnd(i+11)*710+Math.sin(t*6+i)*24, y=-30+t*1040;
+    g+=`<g transform="translate(${x} ${y}) rotate(${t*300})"><circle r="22" fill="${GOLD}"/><circle r="14" fill="none" stroke="#c48f00" stroke-width="3"/></g>`;}
+  return g;
+}
+function book(s,d){
+  let g=bgGrad('bk','#0F1630','#12304a')+`<rect width="870" height="990" fill="url(#bk)"/><g transform="translate(60 -250)">`;
+  const gr=ease(s/(d*.8)), sway=Math.sin(s*2)*2.5;
+  g+=`<path d="M435 760 C340 720 220 722 120 760 L120 900 C220 862 340 862 435 900 Z" fill="${CREAM}"/><path d="M435 760 C530 720 650 722 750 760 L750 900 C650 862 530 862 435 900 Z" fill="#f2e6cc"/>`;
+  for(let i=0;i<5;i++){g+=`<path d="M160 ${790+i*18} C250 ${772+i*18} 340 ${776+i*18} 410 ${806+i*18}" stroke="#bfae8a" stroke-width="4" fill="none"/><path d="M710 ${790+i*18} C620 ${772+i*18} 530 ${776+i*18} 460 ${806+i*18}" stroke="#bfae8a" stroke-width="4" fill="none"/>`;}
+  g+=`<g transform="rotate(${sway} 435 780)"><path pathLength="1" d="M435 790 C420 650 470 540 435 380" stroke="${GREEN}" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="1" stroke-dashoffset="${1-gr}"/>`;
+  const L=[[.28,-1],[.4,1],[.55,-1],[.7,1],[.85,-1]];
+  L.forEach(([f,sd],i)=>{const k=outc((gr-f)/.18); if(k<=0) return; const y=790-(790-380)*f, x=435+Math.sin(f*6)*-14;
+    g+=`<g transform="translate(${x} ${y}) rotate(${sd*40}) scale(${k})"><ellipse cx="${sd*46}" cy="0" rx="46" ry="20" fill="${i%2?LEMON:GREEN}"/></g>`;});
+  g+=`</g></g>`;
+  return g;
+}
+const SCN = {
+  road:(s,d)=>road(s,d,{speed:1.1,top:'#0F1630',hor:'#1d3558',ground:'#0b1126',road:'#17203f'}),
+  walk:(s,d)=>road(s,d,{speed:1.8,top:'#0F1630',hor:'#3a3350',ground:'#0b1126',road:'#1a2147'}),
+  noise:noisy, siege, coord,
+  puppet1:(s,d)=>puppets(s,d,{n:1}), puppet2:(s,d)=>puppets(s,d,{n:3}), book
+};
+
+/* ---------- captions ---------- */
+let lastCap=-1;
+function fit(el,sizes,maxLines){
+  for(const sz of sizes){ el.style.fontSize=sz+'px'; const lh=parseFloat(getComputedStyle(el).lineHeight); if(el.scrollHeight<=lh*maxLines+4) return; }
+}
+function setCaption(i){
+  if(i===lastCap) return; lastCap=i;
+  const c=CH[i]; let ar=c.ar;
+  if(c.hl && ar.includes(c.hl)) ar=ar.replace(c.hl,`<b>${c.hl}</b>`);
+  $('ar').innerHTML=ar; $('en').textContent=c.en;
+  fit($('ar'),c.ar.length<14?[110,96,84]:[68,62,56,50],2); fit($('en'),[38,34,31,28],3);
+}
+
+/* ---------- main ---------- */
+window.draw = function(t){
+  // caption
+  let ci=-1; for(let i=0;i<CH.length;i++){ if(t>=CH[i].start-0.02) ci=i; }
+  const caps=$('caps');
+  if(ci>=0){ setCaption(ci); const lt=t-CH[ci].start; const k=outc(lt/.14);
+    caps.style.opacity=k; caps.style.transform=`translateY(${(1-k)*22}px)`; }
+  else caps.style.opacity=0;
+  $('prog').firstElementChild.style.width=(clamp(t/DUR)*100)+'%';
+
+  // scene
+  const sc=$('scene'), veil=$('veil'), pn=$('punch');
+  let cur=null; for(const S of SCENES){ if(t>=S.a && t<S.b) cur=S; }
+  veil.style.opacity=0; pn.style.opacity=0;
+  if(cur){
+    const s=t-cur.a, d=cur.b-cur.a, inK=ease(s/.2), outK=ease((cur.b-t)/.18);
+    sc.style.display='block';
+    const k=Math.min(inK,outK);
+    sc.style.clipPath=`inset(0 0 0 ${(1-k)*100}% round 36px)`;
+    sc.innerHTML=`<defs><mask id="pip"><rect width="870" height="990" fill="#fff"/><circle cx="${PIP.cx}" cy="${PIP.cy}" r="${PIP.r}" fill="#000"/></mask></defs>`+
+      `<g mask="url(#pip)" font-family="T">${SCN[cur.id](s,d)}</g>`+
+      `<circle cx="${PIP.cx}" cy="${PIP.cy}" r="${PIP.r+5}" fill="none" stroke="${LEMON}" stroke-width="8"/>`+
+      `<g transform="translate(${PIP.cx} ${PIP.cy+PIP.r-8})"><rect x="-84" y="-30" width="168" height="48" rx="24" fill="${GREEN}"/><text y="6" text-anchor="middle" font-size="32" font-weight="800" fill="${INK}" font-family="T">الشيخ</text></g>`+
+      (k<1&&k>0?`<rect x="${(1-k)*870-6}" y="0" width="10" height="990" fill="${LEMON}"/>`:'');
+  } else { sc.style.display='none'; }
+
+  // punch ("لا")
+  let P=null; for(const p of PUNCH){ if(t>=p.a && t<p.b) P=p; }
+  if(P){
+    const s=t-P.a, k=outc(s/.16), shake=Math.max(0,1-s/.35);
+    pn.style.opacity=1; veil.style.opacity=.5*outc(s/.1);
+    const span=pn.firstElementChild; span.textContent=P.text; span.style.fontSize=(P.size||560)+'px';
+    span.style.transform=`translate(${(rnd(Math.floor(s*40))-.5)*26*shake}px,${(rnd(Math.floor(s*40)+9)-.5)*20*shake}px) scale(${1.9-.9*k})`;
+    pn.style.background=`radial-gradient(circle at 50% 50%, transparent ${Math.min(95,s*300)}%, transparent 0)`;
+  }
+};
+</script></body></html>
