@@ -114,12 +114,12 @@ function siege(s,d){
 }
 function coord(s,d){
   let g=`<rect width="870" height="990" fill="${INK}"/>`;
-  const k=ease(s/(d*.5)), m=ease((s-d*.5)/.45), y=470;
+  const k=ease(s/(d*.55)), m=ease((s-d*.55)/.35), y=450, op=clamp(1-k*1.6);
   g+=`<line x1="40" y1="${y+110}" x2="830" y2="${y+110}" stroke="${CREAM}" stroke-opacity=".2" stroke-width="3" stroke-dasharray="14 12"/>`;
-  const ax=130+k*160, bx=740-k*160;
-  const sq=(x,col,label,sc)=>`<g transform="translate(${x} ${y}) scale(${sc})"><rect x="-90" y="-90" width="180" height="180" rx="22" fill="${col}"/><text y="150" text-anchor="middle" font-size="64" font-weight="800" fill="${CREAM}">${label}</text></g>`;
-  if(m<=0){g+=sq(ax,GREEN,'مشروع سياسي',1)+sq(bx,CREAM,'العدو',1);}
-  else{const x=435; g+=`<g transform="translate(${x} ${y}) scale(${1+.15*Math.sin(m*3.14)})"><rect x="-90" y="-90" width="180" height="180" rx="22" fill="${CREAM}"/><rect x="-90" y="-90" width="90" height="180" rx="22" fill="${GREEN}"/></g><text x="435" y="${y+170}" text-anchor="middle" font-size="86" font-weight="800" fill="${GOLD}" fill-opacity="${m}">تنسيق</text>`;}
+  const ax=140+k*295, bx=730-k*295;
+  const sq=(x,col,label)=>`<g transform="translate(${x} ${y})"><rect x="-90" y="-90" width="180" height="180" rx="22" fill="${col}"/><text y="170" text-anchor="middle" font-size="50" font-weight="800" fill="${CREAM}" fill-opacity="${op}">${label}</text></g>`;
+  if(m<=0){g+=sq(ax,GREEN,'مشروع سياسي')+sq(bx,CREAM,'العدو');}
+  else{g+=`<g transform="translate(435 ${y}) scale(${1+.15*Math.sin(m*3.14)})"><rect x="-90" y="-90" width="180" height="180" rx="22" fill="${CREAM}"/><rect x="-90" y="-90" width="90" height="180" rx="22" fill="${GREEN}"/></g><text x="435" y="${y+190}" text-anchor="middle" font-size="86" font-weight="800" fill="${GOLD}" fill-opacity="${m}">تنسيق</text>`;}
   return g;
 }
 function puppets(s,d,o){

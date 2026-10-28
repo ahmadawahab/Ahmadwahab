@@ -40,4 +40,9 @@ for i, c in enumerate(timing):
         put(c["start"] - .03, whoosh(.2, 700, 4200, .16))
 out = np.tanh(out * 1.2) * .9
 sf.write("out/sfx.wav", out.astype(np.float32), SR)
+# outro: star turns (whoosh) and the play button lands (soft low thud)
+o = np.zeros(int(3.4 * SR))
+w = whoosh(.6, 400, 2800, .35); o[int(.5 * SR):int(.5 * SR) + len(w)] += w
+th = thud(.5) * .45; o[int(1.18 * SR):int(1.18 * SR) + len(th)] += th
+sf.write("out/outro_sfx.wav", (np.tanh(o * 1.2) * .9).astype(np.float32), SR)
 print("sfx ok", len(out) / SR)

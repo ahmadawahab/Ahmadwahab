@@ -9,11 +9,34 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parent.parent
-FPS, DUR = 30, 67.06
-SCENES = [("road", 3.6, 5.6), ("noise", 10.7, 13.55), ("siege", 22.0, 26.35), ("coord", 32.8, 36.3),
-          ("puppet1", 44.3, 47.3), ("puppet2", 50.7, 53.15), ("book", 53.6, 55.9), ("walk", 60.2, 64.1)]
-PUNCH = [dict(a=39.3, b=41.45, text="لا"), dict(a=48.6, b=49.35, text="لا"),
-         dict(a=58.98, b=59.95, text="لا"), dict(a=64.25, b=67.06, text="بقوة", size=360)]
+FPS, DUR = 30, 66.6
+TIMING = json.load(open(ROOT / "data/timing.json"))
+
+def W(c, sub, k="s"):
+    """time (s) of the first word of chunk c (1-based) containing `sub`"""
+    for w in TIMING[c - 1]["words"]:
+        if sub in w["w"]:
+            return w[k]
+    raise KeyError((c, sub))
+
+def C(c, k):
+    return TIMING[c - 1][k]
+
+# scenes follow what is being said: cut in on the word, out at the end of the phrase
+SCENES = [("road", W(2, "حتى") - .10, C(2, "end")), ("noise", C(5, "start") - .05, C(5, "end") + .1),
+          ("siege", C(9, "start") - .05, C(10, "end")), ("coord", W(12, "يلتقي") - .10, C(12, "end")),
+          ("puppet1", W(16, "وصارت") - .10, C(16, "end")), ("puppet2", W(20, "ألعوبة") - .10, C(20, "end")),
+          ("book", C(21, "start") - .05, C(21, "end")), ("walk", W(24, "نملك") - .10, C(24, "end"))]
+PUNCH = [dict(a=C(14, "start") - .03, b=max(C(14, "end"), C(14, "start") + .9), text="لا"),
+         dict(a=C(18, "start") - .03, b=max(C(18, "end"), C(18, "start") + .9), text="لا"),
+         dict(a=C(23, "start") - .03, b=max(C(23, "end"), C(23, "start") + .9), text="لا"),
+         dict(a=W(25, "بقوة") - .05, b=DUR, text="بقوة", size=360)]
+SCENES = [(i, round(a, 2), round(min(max(b, a + 1.0), a + 4.6), 2)) for i, a, b in SCENES]
+for p in PUNCH:
+    p["a"], p["b"] = round(p["a"], 2), round(p["b"], 2)
+_spans = sorted([(a, b, i) for i, a, b in SCENES] + [(p["a"], p["b"], "punch") for p in PUNCH])
+for (a1, b1, i1), (a2, b2, i2) in zip(_spans, _spans[1:]):
+    assert b1 <= a2 + 0.01, f"overlap {i1} {b1} vs {i2} {a2}"
 
 def build():
     b = ROOT / "brand"
